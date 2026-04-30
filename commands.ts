@@ -1,5 +1,6 @@
 import { CLICommand } from "./command.js";
 import { commandExit } from "./command_exit.js";
+import { commandHelp } from "./command_help.js";
 
 export function getCommands(): Record<string, CLICommand> {
 return {
@@ -7,6 +8,11 @@ return {
         name: "exit", 
         description: "Exits the pokedex",
         callback: commandExit
+    },
+    help: {
+        name: "help",
+        description: "Displays commands that you can use",
+        callback: commandHelp
     },
 }
 }
