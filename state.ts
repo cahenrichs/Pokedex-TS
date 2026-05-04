@@ -1,6 +1,7 @@
 import { createInterface, type Interface } from "readline";
 import { getCommands } from "./commands.js";
 import { PokeAPI } from "./pokeapi.js";
+import { Cache } from "./pokecache.js";
 
 export type CLICommand = {
     name: string;
@@ -17,7 +18,8 @@ export type State = {
 }
 
 export function initState(): State {
-    const api = new PokeAPI();
+    const CACHE_INTERVAL = 1000 * 60 * 5; // 5 minutes
+    const api = new PokeAPI(CACHE_INTERVAL);
     const rl = createInterface({
       input: process.stdin,
       output: process.stdout,
