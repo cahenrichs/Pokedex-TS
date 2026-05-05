@@ -1,5 +1,23 @@
 import { Cache } from "./pokecache.js";
 
+export type ShallowLocations = {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Location[];
+};
+
+export type Location = {
+  name: string;
+  pokemon_encounters: {
+    pokemon: {
+      name: string;
+      url: string;
+    };
+    version_details: any[];
+  }[];
+};
+
 export class PokeAPI {
     private static readonly baseURL = "https://pokeapi.co/api/v2";
     private cache: Cache;
@@ -33,20 +51,24 @@ constructor(cacheInterval: number) {
 
 
   async fetchLocation(locationName: string): Promise<Location> {
-      throw new Error("not implemented");
-  }
+    if (!locationName) {  
+        throw new Error("Location name is required");
+    }
+    let url: string = `${PokeAPI.baseURL}/location-area/${locationName}`;
+    const cache = this.cache.get<Location>(url);
+    if (cache) {
+        return cache;
+    }
+
+    const resp = await fetch(url)
+    if (!resp.ok) {
+        throw new Error(`Response status: ${resp.status}`);
+    }
+
+    const data = await resp.json()
+    this.cache.add(url, data);
+    return data as Location
 }
-
-export type ShallowLocations = {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: Location[];
-};
-
-export type Location = {
-  name: string;
-  url: string;
-};
+}
 
 

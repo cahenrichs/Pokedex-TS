@@ -17,7 +17,7 @@ state.readline.on('line', (input) => {
         console.log("Unknown command");
     } else {
         try{
-        t.callback(state)
+        t.callback(state, ...words.slice(1))
         } catch (e) {
             console.log(e)
         }
