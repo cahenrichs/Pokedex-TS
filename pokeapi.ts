@@ -18,6 +18,11 @@ export type Location = {
   }[];
 };
 
+export type Pokemon = {
+  name: string;
+  base_experience: number;
+}
+
 export class PokeAPI {
     private static readonly baseURL = "https://pokeapi.co/api/v2";
     private cache: Cache;
@@ -69,6 +74,25 @@ constructor(cacheInterval: number) {
     this.cache.add(url, data);
     return data as Location
 }
-}
 
+async fetchPokemon(pokemonName: string): Promise<Pokemon> {
+    if (!pokemonName) {  
+        throw new Error("Pokemon name is required");
+    }
+    let url: string = `${PokeAPI.baseURL}/pokemon/${pokemonName}`;
+    const cache = this.cache.get<Pokemon>(url);
+    if (cache) {
+        return cache;
+    }
+
+    const resp = await fetch(url)
+    if (!resp.ok) {
+        throw new Error(`Response status: ${resp.status}`);
+    }
+
+    const data = await resp.json()
+    this.cache.add(url, data);
+    return data as Pokemon
+}
+}
 
