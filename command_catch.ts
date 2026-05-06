@@ -13,7 +13,7 @@ export async function commandCatch(state: State, ...args: string[]) {
         const roll = Math.floor(Math.random() * pokemon.base_experience); // Simulate a catch roll based on base experience
         if (roll < 75) {
             console.log(`${pokemon.name} was caught!`);
-            state.Pokemon[pokemon.name] = pokemon;
+            state.caughtPokemon[pokemon.name] = pokemon;
         } else {
             console.log(`${pokemon.name} escaped! Better luck next time.`);
         }

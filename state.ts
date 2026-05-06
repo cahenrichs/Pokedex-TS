@@ -16,7 +16,7 @@ export type State = {
     pokeAPI: PokeAPI;
     nextLocationsURL: string | null;
     previousLocationsURL: string | null;
-    Pokemon: Record<string, Pokemon>;
+    caughtPokemon: Record<string, Pokemon>;
 }
 
 export function initState(): State {
@@ -34,6 +34,6 @@ return {
     pokeAPI: api,
     nextLocationsURL: null,
     previousLocationsURL: null,
-    Pokemon: {}
+    caughtPokemon: {}
 }
 }
